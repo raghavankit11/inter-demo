@@ -1,4 +1,6 @@
 {% load i18n %}
+{% load djmoney %}
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -23,7 +25,10 @@
         <li class="nav-item">
           <a class="nav-link" aria-current="page" href="#">{% translate "Items" %}</a>
         </li>
-        <li class="nav-item dropdown " style="float:right!important;">
+
+      </ul>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             {% translate "Language" %}
           </a>
@@ -41,21 +46,23 @@
             {% endfor %}
           </ul>
         </li>
-      </ul>
+        </ul>
     </div>
   </div>
 </nav>
 
 <div class="container">
-    <table style="width:400px;">
+    <table style="width:500px;">
         <tr>
-            <th style="width:80%">{% translate "Name" %}</th>
+            <th style="width:50%">{% translate "Name" %}</th>
             <th style="width:20%">{% translate "Quantity" %}</th>
+            <th style="width:30%">{% translate "Amount" %} ({% translate "Currency Code" %})</th>
         </tr>
         {% for item in items %}
         <tr>
             <td>{{ item.name }}</td>
             <td>{{ item.quantity }}</td>
+            <td>{{ item.amount_translated }}</td>
         </tr>
         {% endfor %}
     </table>

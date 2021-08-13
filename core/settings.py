@@ -13,6 +13,8 @@ import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+from celery.schedules import crontab
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -37,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'lang'
+    'lang',
+    'djmoney',
+    'djmoney.contrib.exchange',
 ]
 
 MIDDLEWARE = [
@@ -134,8 +138,23 @@ LANGUAGES = (
     ('en', _('English')),
     ('fr', _('French')),
     ('hi', _('Hindi')),
+    ('ja', _('Japanese')),
 )
 
 LOCALE_PATHS = (
     os.path.join(BASE_DIR, 'locale/'),
 )
+
+# for currency conversion
+EXCHANGE_BACKEND = 'djmoney.contrib.exchange.backends.FixerBackend'
+# FIXER_ACCESS_KEY = '996d11f6c9b33f2f359c3805b5fd2a7f'
+BASE_CURRENCY = 'GBP'
+FIXER_URL = 'http://data.fixer.io/api/latest?access_key=996d11f6c9b33f2f359c3805b5fd2a7f'
+
+CELERYBEAT_SCHEDULE = {
+    'update_rates': {
+        'task': 'core.tasks.update_rates',
+        'schedule': crontab(minute=10, hour=0),
+        'kwargs': {}  # For custom arguments
+    }
+}
