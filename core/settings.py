@@ -139,6 +139,7 @@ LANGUAGES = (
     ('fr', _('French')),
     ('hi', _('Hindi')),
     ('ja', _('Japanese')),
+    ('ar', _('Arabic')),
 )
 
 LOCALE_PATHS = (

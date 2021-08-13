@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-13 18:30+0530\n"
+"POT-Creation-Date: 2021-08-13 19:19+0530\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,6 +32,10 @@ msgstr "हिंदी"
 
 #: .\core\settings.py:141
 msgid "Japanese"
+msgstr ""
+
+#: .\core\settings.py:142
+msgid "Arabic"
 msgstr ""
 
 #: .\lang\models.py:14 .\lang\templates\item.html:59
@@ -62,6 +66,10 @@ msgstr "मात्रा"
 #: .\lang\templates\item.html:59
 msgid "Amount"
 msgstr "राशि"
+
+#: .\lang\templates\item.html:71
+msgid "This page is displaying the list of items"
+msgstr "यह पृष्ठ मदों की सूची प्रदर्शित कर रहा है"
 
 #: .\venv\Lib\site-packages\django\contrib\messages\apps.py:7
 msgid "Messages"
