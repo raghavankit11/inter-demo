@@ -16,60 +16,60 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: .\core\settings.py:138
 msgid "English"
-msgstr "अंग्रेज़ी"
+msgstr "英語"
 
 #: .\core\settings.py:139
 msgid "French"
-msgstr "फ्रेंच"
+msgstr "フランス語"
 
 #: .\core\settings.py:140
 msgid "Hindi"
-msgstr "हिंदी"
+msgstr "ヒンディー語"
 
 #: .\core\settings.py:141
 msgid "Japanese"
-msgstr ""
+msgstr "日本"
 
 #: .\core\settings.py:142
 msgid "Arabic"
-msgstr ""
+msgstr "アラビア語"
 
 #: .\lang\models.py:14 .\lang\templates\item.html:65
 msgid "Currency Code"
-msgstr "INR"
+msgstr "JPY"
 
 #: .\lang\templates\home.html:11 .\lang\templates\home.html:50
 #: .\lang\templates\item.html:14
 msgid "hello"
-msgstr "नमस्ते"
+msgstr "こんにちは"
 
 #: .\lang\templates\item.html:32
 msgid "Items"
-msgstr "आइटम"
+msgstr "アイテム"
 
 #: .\lang\templates\item.html:39
 msgid "Language"
-msgstr "भाषा"
+msgstr "言語"
 
 #: .\lang\templates\item.html:63
 msgid "Name"
-msgstr "नाम"
+msgstr "名前"
 
 #: .\lang\templates\item.html:64
 msgid "Quantity"
-msgstr "मात्रा"
+msgstr "量"
 
 #: .\lang\templates\item.html:65
 msgid "Amount"
-msgstr "राशि"
+msgstr "額"
 
 #: .\lang\templates\item.html:77
 msgid "This page is displaying the list of items"
-msgstr "यह पृष्ठ मदों की सूची प्रदर्शित कर रहा है"
+msgstr "このページはアイテムのリストを表示しています"
 
 #: .\venv\Lib\site-packages\django\contrib\admin\views\main.py:102
 #, python-format

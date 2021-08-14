@@ -16,60 +16,61 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
 #: .\core\settings.py:138
 msgid "English"
-msgstr "अंग्रेज़ी"
+msgstr "إنجليزي"
 
 #: .\core\settings.py:139
 msgid "French"
-msgstr "फ्रेंच"
+msgstr "فرنسي"
 
 #: .\core\settings.py:140
 msgid "Hindi"
-msgstr "हिंदी"
+msgstr "هندي"
 
 #: .\core\settings.py:141
 msgid "Japanese"
-msgstr ""
+msgstr "اليابانية"
 
 #: .\core\settings.py:142
 msgid "Arabic"
-msgstr ""
+msgstr "عربى"
 
 #: .\lang\models.py:14 .\lang\templates\item.html:65
 msgid "Currency Code"
-msgstr "INR"
+msgstr "AED"
 
 #: .\lang\templates\home.html:11 .\lang\templates\home.html:50
 #: .\lang\templates\item.html:14
 msgid "hello"
-msgstr "नमस्ते"
+msgstr "سلام"
 
 #: .\lang\templates\item.html:32
 msgid "Items"
-msgstr "आइटम"
+msgstr "العناصر"
 
 #: .\lang\templates\item.html:39
 msgid "Language"
-msgstr "भाषा"
+msgstr "لغة"
 
 #: .\lang\templates\item.html:63
 msgid "Name"
-msgstr "नाम"
+msgstr "اسم"
 
 #: .\lang\templates\item.html:64
 msgid "Quantity"
-msgstr "मात्रा"
+msgstr "كمية"
 
 #: .\lang\templates\item.html:65
 msgid "Amount"
-msgstr "राशि"
+msgstr "مقدار"
 
 #: .\lang\templates\item.html:77
 msgid "This page is displaying the list of items"
-msgstr "यह पृष्ठ मदों की सूची प्रदर्शित कर रहा है"
+msgstr "تعرض هذه الصفحة قائمة العناصر"
 
 #: .\venv\Lib\site-packages\django\contrib\admin\views\main.py:102
 #, python-format

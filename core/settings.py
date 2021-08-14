@@ -148,7 +148,7 @@ LOCALE_PATHS = (
 
 # for currency conversion
 EXCHANGE_BACKEND = 'djmoney.contrib.exchange.backends.FixerBackend'
-# FIXER_ACCESS_KEY = '996d11f6c9b33f2f359c3805b5fd2a7f'
+FIXER_ACCESS_KEY = '996d11f6c9b33f2f359c3805b5fd2a7f'
 BASE_CURRENCY = 'GBP'
 FIXER_URL = 'http://data.fixer.io/api/latest?access_key=996d11f6c9b33f2f359c3805b5fd2a7f'
 
