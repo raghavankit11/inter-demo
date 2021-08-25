@@ -17,10 +17,30 @@
             direction:rtl;
         }
     </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        function on_timezone_change(){
+            let selected_timezone = $('#timezoneDropdown').val();
+            let csrf_token = $('[name="csrfmiddlewaretoken"]').val();
+            payload={'selected_timezone': selected_timezone}
+
+            $.ajax({
+                async: false,
+                url: "{% url 'update_timezone' %}",
+                headers:{"X-CSRFToken": csrf_token},
+                dataType: 'JSON',
+                type: 'POST',
+                data: payload,
+                success:function(data){
+                    location.reload();
+                }
+            });
+        }
+    </script>
   </head>
   <body class="{% if LANGUAGE_BIDI %} rtl {% endif %}">
-
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">Amazon</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,29 +72,48 @@
             {% endfor %}
           </ul>
         </li>
-        </ul>
+      </ul>
+      <ul>
+        Logged in as  "{{ user }}" &nbsp;&nbsp;&nbsp;&nbsp;
+      </ul>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        {% csrf_token %}
+        <select id="timezoneDropdown" name="timezoneDropdown" onchange="on_timezone_change();">
+            {% for timezone in settings.TIME_ZONES %}
+                <option value="{{ timezone | first }}" {% if timezone|first == user.profile.timezone|default:settings.TIME_ZONE %}selected{% endif %}>
+                    {{ timezone | last }}
+                </option>
+            {% endfor %}
+        </select>
+      </ul>
     </div>
   </div>
 </nav>
 
 <div class="container">
-    <table style="width:500px;">
+    <table style="width:900px;">
         <tr>
-            <th style="width:50%">{% translate "Name" %}</th>
-            <th style="width:20%">{% translate "Quantity" %}</th>
-            <th style="width:30%">{% translate "Amount" %} ({% translate "Currency Code" %})</th>
+            <th style="width:30%">{% translate "Name" %}</th>
+            <th style="width:10%">{% translate "Quantity" %}</th>
+            <th style="width:20%">{% translate "Amount" %} ({% translate "Currency Code" %})</th>
+            <th style="width:20%">{% translate "Created On" %}</th>
+            <th style="width:20%">{% translate "Updated On" %}</th>
         </tr>
         {% for item in items %}
         <tr>
             <td>{{ item.name }}</td>
             <td>{{ item.quantity }}</td>
             <td>{{ item.amount_translated }}</td>
+            <td>{{ item.created_on }}</td>
+            <td>{{ item.updated_on }}</td>
         </tr>
         {% endfor %}
     </table>
     <div class="card" style="margin-top:40px;">
       <div class="card-body">
         {% translate "This page is displaying the list of items" %}
+          <br>
+        {% translate "book" %}
       </div>
     </div>
 </div>

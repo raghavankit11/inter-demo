@@ -19,16 +19,18 @@ from django.urls import path, include, re_path
 
 import lang
 from core import settings
+from lang.views import update_timezone
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('update_timezone', update_timezone, name='update_timezone'),
 ]
 
 urlpatterns += i18n_patterns (
     path('', include('lang.urls', namespace='lang'))
 )
 
-# if 'rosetta' in settings.INSTALLED_APPS:
-#     urlpatterns += [
-#         re_path(r'^rosetta/', include('rosetta.urls'))
-#     ]
+if 'rosetta' in settings.INSTALLED_APPS:
+    urlpatterns += [
+        re_path(r'^rosetta/', include('rosetta.urls'))
+    ]

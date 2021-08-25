@@ -10,9 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
+from datetime import timedelta
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+import pytz
 from celery.schedules import crontab
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -42,6 +44,8 @@ INSTALLED_APPS = [
     'lang',
     'djmoney',
     'djmoney.contrib.exchange',
+    'rosetta',
+    # 'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -53,6 +57,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'core.middlewares.TimezoneMiddleware',
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -69,6 +74,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'core.context_preprocessors.settings_export',
             ],
         },
     },
@@ -80,14 +86,23 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'core',
+        'USER': 'postgres',
+        'PASSWORD': 'novak@123',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
-
-
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -140,6 +155,7 @@ LANGUAGES = (
     ('hi', _('Hindi')),
     ('ja', _('Japanese')),
     ('ar', _('Arabic')),
+    ('de', _('German')),
 )
 
 LOCALE_PATHS = (
@@ -148,14 +164,16 @@ LOCALE_PATHS = (
 
 # for currency conversion
 EXCHANGE_BACKEND = 'djmoney.contrib.exchange.backends.FixerBackend'
-# FIXER_ACCESS_KEY = '996d11f6c9b33f2f359c3805b5fd2a7f'
+FIXER_ACCESS_KEY = '996d11f6c9b33f2f359c3805b5fd2a7f'
 BASE_CURRENCY = 'GBP'
 FIXER_URL = 'http://data.fixer.io/api/latest?access_key=996d11f6c9b33f2f359c3805b5fd2a7f'
 
-CELERYBEAT_SCHEDULE = {
-    'update_rates': {
-        'task': 'core.tasks.update_rates',
-        'schedule': crontab(minute=10, hour=0),
-        'kwargs': {}  # For custom arguments
-    }
-}
+# CELERYBEAT_SCHEDULE = {
+#     'update_rates': {
+#         'task': 'core.tasks.update_rates',
+#         'schedule': timedelta(seconds=30),
+#         'kwargs': {}  # For custom arguments
+#     }
+# }
+
+TIME_ZONES = [(n, n) for n in pytz.all_timezones]
