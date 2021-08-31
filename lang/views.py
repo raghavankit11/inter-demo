@@ -19,8 +19,33 @@ def update_timezone(request):
     selected_timezone = request.POST.get('selected_timezone')
     request.user.profile.timezone = selected_timezone
     request.user.profile.save()
-    # return redirect(request.path)
     return JsonResponse({'result': 'success'})
+
+
+def create_post(request):
+    post_content = request.POST.get('data_item[post_content]')
+    p = Post(text_content=post_content)  # Creating Like Object
+    p.save()  # saving it to store in database
+    data = {
+             'result': True,
+             'post':{
+                        'text_content': p.text_content,
+                        }
+           }
+    return JsonResponse(data)
+
+
+def test_page(request):
+    return render(request, 'test_page.html')
+
+
+
+
+
+
+
+
+
 # def translate(language):
 #     cur_language = get_language()
 #     try:

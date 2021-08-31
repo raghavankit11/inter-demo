@@ -28,3 +28,6 @@ class Item(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     timezone = models.CharField(max_length=40, null=True, blank=True, choices=settings.TIME_ZONES)
+
+class Post(models.Model):
+    text_content = models.CharField(max_length=100, null=True, blank=True)
