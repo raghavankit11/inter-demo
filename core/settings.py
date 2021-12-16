@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'djmoney',
     'djmoney.contrib.exchange',
     'rosetta',
+    'autotranslate',
     # 'django_celery_beat',
 ]
 
@@ -190,3 +191,9 @@ FIXER_URL = 'http://data.fixer.io/api/latest?access_key=996d11f6c9b33f2f359c3805
 # }
 
 TIME_ZONES = [(n, n) for n in pytz.all_timezones]
+
+
+# CREATED BY VIVEK SIR
+AUTOTRANSLATE_TRANSLATOR_SERVICE = 'autotranslate.services.GoogleAPITranslatorService'
+GOOGLE_TRANSLATE_KEY = 'AIzaSyB1sWJxmaNl5hQfKhzDMRg4MLccNh6i4hU'
+

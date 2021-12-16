@@ -21,19 +21,26 @@ import lang
 import lang2
 from core import settings
 from lang.views import update_timezone, create_post
+from django.views.i18n import JavaScriptCatalog
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('update_timezone', update_timezone, name='update_timezone'),
     path('post/new', create_post, name='post-new'),
 
+
 ]
+# js_info_dict = {
+#     'domain': 'djangojs',
+#     'packages': ('core',),
+# }
 
 urlpatterns += i18n_patterns (
     path('', include('lang.urls', namespace='lang')),
     path('other/', include('lang2.urls', namespace='lang2')),
-
+    path('jsi18n/', JavaScriptCatalog.as_view(),  name='javascript-catalog'),
 )
+
 
 if 'rosetta' in settings.INSTALLED_APPS:
     urlpatterns += [
