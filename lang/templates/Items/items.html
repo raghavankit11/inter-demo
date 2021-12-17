@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load djmoney %}
+{% get_current_language_bidi as LANGUAGE_BIDI %}
+{#{% load static %}#}
+{#{% load crispy_forms_tags %}#}
+
+{% block content %}
+    <div class="content-section">
+        <table style="width:900px;">
+            <tr>
+                <th style="width:30%">{% trans "Name" %}</th>
+                <th style="width:10%">{% translate "Quantity" %}</th>
+                <th style="width:20%">{% trans "Amount" %} ({% translate "Currency Code" %})</th>
+                <th style="width:20%">{% translate "Created On" %}</th>
+                <th style="width:20%">{% trans "Updated On" %} </th>
+            </tr>
+            <tr>
+                <td colspan="5" style="font-size: x-small"><a href={% url 'lang:items_add' %}>Click here to add new item...</a></td>
+            </tr>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.amount_translated }}</td>
+                <td>{{ item.created_on }}</td>
+                <td>{{ item.updated_on }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
