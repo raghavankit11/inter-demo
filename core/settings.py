@@ -37,6 +37,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
+    'crispy_forms',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -48,7 +49,17 @@ INSTALLED_APPS = [
     'rosetta',
     'autotranslate',
     # 'django_celery_beat',
+    # 'django.contrib.sites',
+    # 'allauth',
+    # 'allauth.account',
+    # 'allauth.socialaccount',
+    # 'allauth.socialaccount.providers.keycloak',
 ]
+#
+# AUTHENTICATION_BACKENDS = [
+#     'django.contrib.auth.backends.ModelBackend',
+#     'allauth.account.auth_backends.AuthenticationBackend',
+# ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -98,7 +109,7 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'core',
+        'NAME': 'inter-demo',
         'USER': 'postgres',
         'PASSWORD': 'novak@123',
         'HOST': '127.0.0.1',
@@ -193,7 +204,13 @@ FIXER_URL = 'http://data.fixer.io/api/latest?access_key=996d11f6c9b33f2f359c3805
 TIME_ZONES = [(n, n) for n in pytz.all_timezones]
 
 
-# CREATED BY VIVEK SIR
-AUTOTRANSLATE_TRANSLATOR_SERVICE = 'autotranslate.services.GoogleAPITranslatorService'
-GOOGLE_TRANSLATE_KEY = 'AIzaSyB1sWJxmaNl5hQfKhzDMRg4MLccNh6i4hU'
 
+
+# SITE_ID = 2
+
+# SOCIALACCOUNT_PROVIDERS = {
+#     'keycloak': {
+#         'KEYCLOAK_URL': 'http://localhost:8080/auth',
+#         'KEYCLOAK_REALM': 'cloak_ad'
+#     }
+# }
