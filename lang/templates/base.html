@@ -1,0 +1,145 @@
+{% load i18n %}
+{% load djmoney %}
+{% get_current_language_bidi as LANGUAGE_BIDI %}
+{% get_current_language as LANGUAGE_CODE %}
+{#{% load static %}#}
+
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <title>{% trans "hello" %}</title>
+    <style>
+        .rtl{
+            direction:rtl;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+
+    <script type="text/javascript">
+        function on_timezone_change(){
+            let selected_timezone = $('#timezoneDropdown').val();
+            let csrf_token = $('[name="csrfmiddlewaretoken"]').val();
+            payload={'selected_timezone': selected_timezone}
+
+            $.ajax({
+                async: false,
+                url: "{% url 'update_timezone' %}",
+                headers:{"X-CSRFToken": csrf_token},
+                dataType: 'JSON',
+                type: 'POST',
+                data: payload,
+                success:function(data){
+                    location.reload();
+                }
+            });
+        }
+
+        function save_post(csrfToken)
+        {
+            let  post_content = $('#txtar4').val();
+
+            $.ajax({
+                type: "POST",
+                url: "{% url 'post-new' %}",
+                data:
+                {
+                  csrfmiddlewaretoken: csrfToken,      //django needs this
+                  data_item:
+                  {
+                    'post_content' : post_content,
+                  }
+                },
+                timeout:0,
+
+                success: function(data)
+                {
+                  if(data.result == true)
+                  {
+                      $('#txtar5').val(data.post.text_content);
+                      $('#txtar4').val("");
+                      $('#txtar6').val('{% trans 'Canada' %}');
+
+                  }
+                }
+
+              });
+
+        }
+
+        function goto_language_dependent_url(language_code){
+            {#let current_url = window.location;#}
+            {#console.log(current_url);#}
+            let language_dependent_url = '/' + language_code + '/' + window.location.pathname.split('/').slice(2).join('/')
+            window.location = language_dependent_url;
+        }
+
+    </script>
+
+  </head>
+  <body class="{% if LANGUAGE_BIDI %} rtl {% endif %}">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Amazon</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="/{{ LANGUAGE_CODE }}/items">{% translate "Items" %}</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                {% translate "Language" %}
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                {% get_available_languages as LANGUAGES %}
+                {% get_language_info_list for LANGUAGES as languages %}
+
+                {% for lang in languages %}
+                  <li>
+                  <a class="dropdown-item" href="javascript:goto_language_dependent_url('{{ lang.code }}')">
+                      {{ lang.name_local }}
+                  </a>
+                  </li>
+                {% endfor %}
+              </ul>
+            </li>
+          </ul>
+          <ul>
+            Logged in as  <span style="color: red">"{{ user }}"</span>  &nbsp;&nbsp;&nbsp;&nbsp;
+          </ul>
+          <ul class="navbar-nav me-auto mb-4 mb-lg-0">
+            {% csrf_token %}
+            <select id="timezoneDropdown" name="timezoneDropdown" onchange="on_timezone_change();">
+                {% for timezone in settings.TIME_ZONES %}
+                    <option value="{{ timezone | first }}" {% if timezone|first == user.profile.timezone|default:settings.TIME_ZONE %}selected{% endif %}>
+                        {{ timezone | last }}
+                    </option>
+                {% endfor %}
+            </select>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+        {% block content %}
+        {% endblock content %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+
+  </body>
+</html>
