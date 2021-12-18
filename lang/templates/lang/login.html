@@ -1,0 +1,58 @@
+{% load crispy_forms_filters %}
+{#{% extends 'base.html' %}#}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Log In</legend>
+                {{ form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-info" name="sign-in" type="submit">Login</button>
+                <br>
+                <br>
+{#            {% if not otp_sent %}#}
+{##}
+{#                &nbsp;&nbsp;or&nbsp;&nbsp;#}
+{#                <br>#}
+{#                <br>#}
+{#                <button class="btn btn-info" name="request-otp" type="submit">Request OTP</button>#}
+{#            {% endif %}#}
+{#            {% if otp_sent %}#}
+{#                <div class="form-group">#}
+{#                    <label for="inputOtp">OTP Please</label>#}
+{#                    <input class="form-control" name="otp" id="inputOtp">#}
+{#                </div>#}
+{##}
+{#                <div class="form-group">#}
+{#                    <button id ="verify-otp" class="btn btn-info" name="verify-otp" type="submit">Verify OTP</button>#}
+{#                </div>#}
+{##}
+{#                <p id ="timer"> The OTP will expire in <span id="countdowntimer" style="color: limegreen">60 </span> Seconds</p>#}
+{##}
+{#                <div class="border-top pt-3">#}
+{#                    <small class="text-muted">#}
+{#                        OTP not received yet? <button class="btn btn-link  btn-sm" name="request-otp" id="request-otp" style= "color: crimson" type="submit">Resend OTP</button>#}
+{#                    </small>#}
+{#                </div>#}
+{##}
+{#            {% endif %}#}
+{#            <br>#}
+{#            <br>#}
+{#            or#}
+{#            <br>#}
+{#            <br>#}
+            <img src="https://blog.consdata.tech/assets/img/posts/2020-02-01-keycloak-uwierzytelnianie-autoryzacja-springboot-angular/Keycloak.png" width="100px" height="75px">
+
+            <a title="Keycloak" class="socialaccount_provider_keycloak" href="/accounts/keycloak/login/?process=login">Log in using AD via Keycloak</a>
+            </div>
+
+
+        </form>
+
+
+
+    </div>
+ {% endblock content %}
