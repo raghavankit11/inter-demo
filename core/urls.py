@@ -16,29 +16,29 @@ Including another URLconf
 from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from django.urls import path, include, re_path
+from django.contrib.auth import views as auth_views
+
 
 import lang
 import lang2
 from core import settings
-from lang.views import update_timezone, create_post
+from lang.views import update_timezone, create_post, login
 from django.views.i18n import JavaScriptCatalog
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('update_timezone', update_timezone, name='update_timezone'),
     path('post/new', create_post, name='post-new'),
-
+    path('accounts/', include('allauth.urls')),
 
 ]
-# js_info_dict = {
-#     'domain': 'djangojs',
-#     'packages': ('core',),
-# }
 
 urlpatterns += i18n_patterns (
     path('', include('lang.urls', namespace='lang')),
     path('other/', include('lang2.urls', namespace='lang2')),
     path('jsi18n/', JavaScriptCatalog.as_view(),  name='javascript-catalog'),
+
+
 )
 
 

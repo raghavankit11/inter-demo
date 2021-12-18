@@ -1,41 +1,39 @@
+from django.contrib.auth import authenticate
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.views.generic import DetailView, CreateView, UpdateView
-
+from .forms import LoginForm
 from .models import *
-from django.utils.translation import gettext as _
-from django.utils.translation import get_language, activate, gettext
+from django.contrib.auth import authenticate, logout as django_logout, login as django_login
 
-
+@login_required
 def home(request):
-    # trans = translate(language='fr')
     return render(request, 'home.html')
-    # , {'trans': trans})
 
-
+@login_required
 def item(request):
     context = {'items': Item.objects.all()}
     return render(request, 'item.html', context=context)
-    # , {'trans': trans})
 
-
+@login_required
 def items(request):
     context = {'items': Item.objects.all()}
     return render(request, 'items/items.html', context=context)
 
-
+@login_required
 def update_timezone(request):
     selected_timezone = request.POST.get('selected_timezone')
     request.user.profile.timezone = selected_timezone
     request.user.profile.save()
     return JsonResponse({'result': 'success'})
 
-
+@login_required
 def create_post(request):
     post_content = request.POST.get('data_item[post_content]')
-    p = Post(text_content=post_content)  # Creating Like Object
-    p.save()  # saving it to store in database
+    p = Post(text_content=post_content)
+    p.save()
     data = {
         'result': True,
         'post': {
@@ -44,20 +42,9 @@ def create_post(request):
     }
     return JsonResponse(data)
 
-
+@login_required
 def test_page(request):
     return render(request, 'test_page.html')
-
-
-class ItemDetailView(LoginRequiredMixin, DetailView):
-    model = Item
-
-    def get_object(self, queryset=None):
-        obj = super(PostDetailView, self).get_object()
-        user = self.request.user
-        obj.is_user_subscribed = obj.subscriptions.filter(user__id__exact=user.id).exists()
-        obj.is_user_subscribed_not = not obj.is_user_subscribed
-        return obj
 
 
 class ItemCreateView(LoginRequiredMixin, CreateView):
@@ -71,6 +58,16 @@ class ItemCreateView(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         return reverse('lang:items')
 
+class ItemDetailView(LoginRequiredMixin, DetailView):
+    model = Item
+
+    def get_object(self, queryset=None):
+        obj = super(ItemDetailView, self).get_object()
+        user = self.request.user
+        obj.is_user_subscribed = obj.subscriptions.filter(user__id__exact=user.id).exists()
+        obj.is_user_subscribed_not = not obj.is_user_subscribed
+        return obj
+
 
 class ItemUpdateView(LoginRequiredMixin, UpdateView):
     model = Item
@@ -79,17 +76,23 @@ class ItemUpdateView(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         return super().form_valid(form)
 
-# def item_add(request):
-#     context = {}
-#     return render(request, 'item.html', context=context)
-#     #, {'trans': trans})
+def login(request):
+    form = LoginForm(request.POST or None)
+    context = {'form': form}
 
+    if request.method == "POST":
+        username = request.POST['username']
+        if 'sign-in' in request.POST:
+            password = request.POST['password']
 
-# def translate(language):
-#     cur_language = get_language()
-#     try:
-#         activate(language)
-#         text = gettext('hello')
-#     finally:
-#         activate(cur_language)
-#     return text
+            # check if user has entered correct credentials
+            user = authenticate(username=username, password=password)
+
+            if user is not None and user.is_authenticated:
+                django_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                # django_login(request, user)
+                return redirect('lang:items')
+            else:
+                return render(request, 'lang/login.html', context=context)
+
+    return render(request, 'lang/login.html', context=context)
